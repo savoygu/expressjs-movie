@@ -18,10 +18,11 @@ exports.showSignin = function (req, res) {
 exports.signup = function (req, res) {
   var _user = req.body.user
 
-  User.find({name: _user.name}, function (err, user) {
+  User.findOne({name: _user.name}, function (err, user) {
     if (err) {
       console.log(err)
     }
+
     if (user) {
       return res.redirect('/signin')
     } else {
@@ -43,7 +44,7 @@ exports.signin = function (req, res) {
   var _user = req.body.user
   var name = _user.name
   var password = _user.password
-
+  console.log(_user)
   User.findOne({name: name}, function (err, user) {
     if (err) {
       console.log(err)

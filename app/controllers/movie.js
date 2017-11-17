@@ -1,5 +1,6 @@
 var _ = require('underscore')
 var Movie = require('../models/movie')
+var Comment = require('../models/comment')
 
 // 电影详情
 exports.detail = function (req, res) {
@@ -8,10 +9,21 @@ exports.detail = function (req, res) {
     if (err) {
       console.log(err)
     }
-    res.render('detail', {
-      title: '电影详情页——' + movie.title,
-      movie: movie
-    })
+    Comment
+      .find({movie: id})
+      .populate('from', 'name')
+      .populate('reply.from reply.to', 'name')
+      .exec(function (err, comments) {
+        console.log(comments)
+        if (err) {
+          console.log(err)
+        }
+        res.render('detail', {
+          title: '电影详情页——' + movie.title,
+          movie: movie,
+          comments: comments
+        })
+      })
   })
 }
 
@@ -46,7 +58,7 @@ exports.update = function (req, res) {
 }
 
 // 新增电影 / 更新电影
-exports.save =  function (req, res) {
+exports.save = function (req, res) {
   console.log(req.body, req.params, req.query)
   var id = req.body.movie._id
   var movie = req.body.movie
@@ -102,7 +114,7 @@ exports.list = function (req, res) {
 }
 
 // 删除电影
-exports.del  = function (req, res) {
+exports.del = function (req, res) {
   var id = req.query.id
 
   if (id) {

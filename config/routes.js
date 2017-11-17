@@ -1,6 +1,7 @@
 var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
+var Comment = require('../app/controllers/comment')
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -30,6 +31,8 @@ module.exports = function (app) {
   app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list) // 电影列表
   app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del) // 删除电影
 
+  // 评论
+  app.post('/user/comment', User.signinRequired, Comment.save) // 新增评论
   /*
    {
    _id: 1,
