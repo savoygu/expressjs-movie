@@ -17,6 +17,8 @@ module.exports = function (app) {
   // 用户
   app.post('/user/signup', User.signup) // 用户注册
   app.post('/user/signin', User.signin) // 用户登录
+  app.get('/signin', User.showSignin) // 登出
+  app.get('/signup', User.showSignup) // 登出
   app.get('/logout', User.logout) // 登出
   app.get('/admin/userlist', User.list)// 用户列表
 

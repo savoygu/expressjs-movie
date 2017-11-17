@@ -39,6 +39,12 @@ app.locals.moment = require('moment')
 
 // 实时加载
 if (process.env.NODE_ENV === 'development') {
+  // 开发配置
+  app.set('showStackError', true)
+  app.use(logger(':method :url :status'))
+  app.locals.pretty = true // 格式化代码
+  mongoose.set('debug', true)
+
   var liveReloadPort = process.env.LR_PORT || 35279
   var excludeList = ['.woff', '.flv']
 
@@ -46,12 +52,6 @@ if (process.env.NODE_ENV === 'development') {
     port: liveReloadPort,
     excludeList: excludeList
   }))
-
-  // 开发配置
-  app.set('showStackError', true)
-  app.use(logger(':method :url :status'))
-  app.locals.pretty = true // 格式化代码
-  mongoose.set('debug', true)
 }
 
 require('./config/routes')(app)

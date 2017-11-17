@@ -3,7 +3,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     watch: {
       pug: {
-        files: ['views/**'],
+        files: ['app/views/**'],
         tasks: ['livereload'],
         options: {
           nospawn: true,
@@ -13,7 +13,7 @@ module.exports = function (grunt) {
         }
       },
       js: {
-        files: ['public/js/**', 'models/**/*.js', 'schemas/**/*.js'],
+        files: ['public/js/**', 'app/models/**/*.js', 'app/schemas/**/*.js'],
         // tasks: ['jshint'],
         tasks: ['livereload'],
         options: {
