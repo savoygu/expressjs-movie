@@ -8,6 +8,10 @@ const UserSchema = new mongoose.Schema({
     type: String
   },
   password: String,
+  role: {
+    type: Number,
+    default: 0
+  },
   meta: {
     createAt: {
       type: Date,

@@ -20,15 +20,15 @@ module.exports = function (app) {
   app.get('/signin', User.showSignin) // 登出
   app.get('/signup', User.showSignup) // 登出
   app.get('/logout', User.logout) // 登出
-  app.get('/admin/userlist', User.list)// 用户列表
+  app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list)// 用户列表
 
   // 电影
   app.get('/movie/:id', Movie.detail) // 电影详情
-  app.get('/admin/movie', Movie.new) // 新增电影(回显数据)
-  app.get('/admin/update/:id', Movie.update) // 更新电影(回显数据)
-  app.post('/admin/movie/new', Movie.save) // 新增电影 / 更新电影
-  app.get('/admin/list', Movie.list) // 电影列表
-  app.delete('/admin/list', Movie.del) // 删除电影
+  app.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new) // 新增电影(回显数据)
+  app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update) // 更新电影(回显数据)
+  app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.save) // 新增电影 / 更新电影
+  app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list) // 电影列表
+  app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del) // 删除电影
 
   /*
    {

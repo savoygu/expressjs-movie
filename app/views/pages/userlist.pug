@@ -18,8 +18,8 @@ block content
                             td #{item.name}
                             //- td #{item.password}
                             td #{moment(item.meta.createAt).format('MM/DD/YYYY')}
-                            td: a(target='_blank', href='../movie/' + item._id) 查看
-                            td: a(target='_blank', href='../admin/update/' + item._id) 修改
+                            td: a(target='_blank', href='../user/' + item._id) 查看
+                            td: a(target='_blank', href='../admin/user/update/' + item._id) 修改
                             td
                                 button.btn.btn-danger.del(type='button', data-id=item._id) 删除
     script(src='/js/admin.js')
