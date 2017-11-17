@@ -2,6 +2,7 @@ var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
+var Category = require('../app/controllers/category')
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -33,6 +34,12 @@ module.exports = function (app) {
 
   // 评论
   app.post('/user/comment', User.signinRequired, Comment.save) // 新增评论
+
+  // 电影分类
+  app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new) // 新增电影分类(回显数据)
+  app.post('/admin/category', User.signinRequired, User.adminRequired, Category.save) // 新增电影分类 / 更新电影
+  app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list) // 电影分类列表
+
   /*
    {
    _id: 1,

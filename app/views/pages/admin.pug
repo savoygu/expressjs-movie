@@ -6,6 +6,13 @@ block content
             form.form-horizontal(method="post", action="/admin/movie")
                 input(type="hidden", name="movie[_id]", value=movie._id)
                 .form-group
+                    label.col-sm-3.control-label(for="inputCategory")  电影分类
+                    .col-sm-9
+                        input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.category)
+                each  cat in categories
+                    label.radio-inline
+                        input(type='radio', name='movie[category]', value=cat._id) | #{cat.name}
+                .form-group
                     label.col-sm-3.control-label(for="inputTitle")  电影名字
                     .col-sm-9
                         input#inputTitle.form-control(type="text", name="movie[title]", value=movie.title)
