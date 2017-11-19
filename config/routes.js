@@ -40,6 +40,8 @@ module.exports = function (app) {
   app.post('/admin/category', User.signinRequired, User.adminRequired, Category.save) // 新增电影分类 / 更新电影
   app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list) // 电影分类列表
 
+  app.get('/results', Index.search) // 电影分类列表
+
   /*
    {
    _id: 1,

@@ -4,14 +4,28 @@ block content
     .container
         .row
             form.form-horizontal(method="post", action="/admin/movie")
-                input(type="hidden", name="movie[_id]", value=movie._id)
+                if movie._id
+                    input(type="hidden", name="movie[_id]", value=movie._id)
+                    input(type="hidden", name="movie[oldCategory]", value=movie.category)
+                .form-group
+                    label.col-sm-3.control-label(for="douban")  豆瓣同步
+                    .col-sm-9
+                        input#douban.form-control(type="text")
                 .form-group
                     label.col-sm-3.control-label(for="inputCategory")  电影分类
                     .col-sm-9
-                        input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.category)
-                each  cat in categories
-                    label.radio-inline
-                        input(type='radio', name='movie[category]', value=cat._id) | #{cat.name}
+                        input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.categoryName)
+                .form-group
+                    label.col-sm-3.control-label 分类选择
+                    .col-sm-9
+                        if categories && categories.length > 0
+                            each cat in categories
+                                    label.radio-inline
+                                        if movie._id
+                                            input(type='radio', name='movie[category]', value=cat._id, checked=cat._id.toString() === movie.category.toString())
+                                        else
+                                            input(type='radio', name='movie[category]', value=cat._id)
+                                        | #{cat.name}
                 .form-group
                     label.col-sm-3.control-label(for="inputTitle")  电影名字
                     .col-sm-9
@@ -47,3 +61,4 @@ block content
                 .form-group
                     .col-sm-offset-3.col-sm-9
                         button.btn.btn-default(type="submit") 录入
+    script(src="/js/admin.js")
