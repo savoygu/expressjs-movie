@@ -2,6 +2,8 @@ var _ = require('underscore')
 var Movie = require('../models/movie')
 var Comment = require('../models/comment')
 var Category = require('../models/category')
+var fs = require('fs')
+var path = require('path')
 
 // 电影详情
 exports.detail = function (req, res) {
@@ -10,6 +12,13 @@ exports.detail = function (req, res) {
     if (err) {
       console.log(err)
     }
+    
+    Movie.update({_id: id}, {$inc: {pv: 1}}, function (err) {
+      if (err) {
+        console.log(err)
+      }
+    })
+    
     Comment
       .find({movie: id})
       .populate('from', 'name')
@@ -58,11 +67,39 @@ exports.update = function (req, res) {
   }
 }
 
+exports.savePoster = function (req, res, next) {
+  var posterData = req.files.uploadPoster
+  var filePath = posterData.path
+  var originalFilename = posterData.originalFilename
+  console.log(posterData)
+
+  if (originalFilename) {
+    fs.readFile(filePath, function (err, data)  {
+      var timestamp = Date.now()
+      var type = posterData.type.split('/')[1]
+      var poster = timestamp + '.' + type
+      var newPath = path.join(__dirname, '../../', '/public/upload/' + poster)
+
+      fs.writeFile(newPath, data, function (err) {
+        req.poster = poster
+        next()
+      })
+    })
+  } else {
+    next()
+  }
+}
+
 // 新增电影 / 更新电影
 exports.save = function (req, res) {
   var id = req.body.movie._id
   var movie = req.body.movie
   var _movie
+
+  if (req.poster) {
+    movie.poster = req.poster
+  }
+
   if (id) {
     Movie.findById(id, function (err, oldMovie) {
       if (err) {

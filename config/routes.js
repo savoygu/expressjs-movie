@@ -3,6 +3,8 @@ var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
+var multipart = require('connect-multiparty')
+var multipartMiddleware = multipart()
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -28,7 +30,7 @@ module.exports = function (app) {
   app.get('/movie/:id', Movie.detail) // 电影详情
   app.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new) // 新增电影(回显数据)
   app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update) // 更新电影(回显数据)
-  app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.save) // 新增电影 / 更新电影
+  app.post('/admin/movie', multipartMiddleware, User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save) // 新增电影 / 更新电影
   app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list) // 电影列表
   app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del) // 删除电影
 
