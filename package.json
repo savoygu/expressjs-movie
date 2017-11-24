@@ -27,8 +27,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development grunt"
+    "dev": "cross-env NODE_ENV=development grunt",
+    "filemap": "filemap -i node_modules libs .git .idea upload"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
