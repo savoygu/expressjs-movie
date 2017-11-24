@@ -26,7 +26,7 @@ exports.update = function (req, res) {
 
 // 新增电影分类 / 更新电影分类
 exports.save = function (req, res) {
-  var id= req.body.category._id
+  var id = req.body.category._id
   var category = req.body.category
 
   if (id) {
@@ -64,4 +64,22 @@ exports.list = function (req, res) {
       categories: categories
     })
   })
+}
+
+
+// 删除分类
+exports.del = function (req, res) {
+  var id = req.query.id
+
+  if (id) {
+    Category.remove({_id: id}, function (err, category) {
+      if (err) {
+        console.log(err)
+      } else {
+        res.json({
+          success: 1
+        })
+      }
+    })
+  }
 }

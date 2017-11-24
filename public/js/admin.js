@@ -1,21 +1,26 @@
 $(function () {
-  $('.del').click(function (e) {
-    var target = $(e.target)
-    var id = target.data('id')
-    var tr = $('.item-id-' + id)
+  function remove (element, url) {
+    $(element).click(function (e) {
+      var target = $(e.target)
+      var id = target.data('id')
+      var tr = $('.item-id-' + id)
 
-    $.ajax({
-      type: 'DELETE',
-      url: '/admin/movie/list?id=' + id
-    })
-      .done(function (results) {
-        if (results.success === 1) {
-          if (tr.length > 0) {
-            tr.remove()
-          }
-        }
+      $.ajax({
+        type: 'DELETE',
+        url: url + '?id=' + id
       })
-  })
+        .done(function (results) {
+          if (results.success === 1) {
+            if (tr.length > 0) {
+              tr.remove()
+            }
+          }
+        })
+    })
+  }
+
+  remove('.js-movie-del', '/admin/movie')
+  remove('.js-category-del', '/admin/category')
 
   $('#douban').blur(function () {
     var douban = $(this)
