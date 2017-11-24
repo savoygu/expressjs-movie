@@ -2,13 +2,13 @@ var User = require('../models/user')
 
 // 用户注册
 exports.showSignup = function (req, res) {
-  res.render('signup', {
+  res.render('user/signup', {
     title: '注册页面'
   })
 }
 
 exports.showSignin = function (req, res) {
-  res.render('signin', {
+  res.render('user/signin', {
     title: '登录页面'
   })
 }
@@ -84,7 +84,7 @@ exports.list = function (req, res) {
       console.log(err)
     }
 
-    res.render('userlist', {
+    res.render('admin/user_list', {
       title: '用户列表页',
       users: users
     })

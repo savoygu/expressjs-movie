@@ -22,6 +22,7 @@ router.delete('/admin/movie/list', Movie.del) // 删除电影
 
 // 电影分类
 router.get('/category/new', Category.new) // 新增电影分类(回显数据)
+router.get('/category/update/:id', Category.update)
 router.post('/category', Category.save) // 新增电影分类 / 更新电影
 router.get('/category/list', Category.list) // 电影分类列表
 

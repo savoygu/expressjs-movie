@@ -28,7 +28,7 @@ exports.detail = function (req, res) {
         if (err) {
           console.log(err)
         }
-        res.render('detail', {
+        res.render('movie/detail', {
           title: '电影详情页——' + movie.title,
           movie: movie,
           comments: comments
@@ -43,7 +43,7 @@ exports.new = function (req, res) {
     if (err) {
       console.log(err)
     }
-    res.render('admin', {
+    res.render('admin/movie_add', {
       title: '电影后台录入页',
       categories: categories,
       movie: {}
@@ -57,7 +57,7 @@ exports.update = function (req, res) {
   if (id) {
     Movie.findById(id, function (err, movie) {
       Category.find({}, function (err, categories) {
-        res.render('admin', {
+        res.render('admin/movie_add', {
           title: '电影后台更新页',
           movie: movie,
           categories: categories
@@ -175,7 +175,7 @@ exports.list = function (req, res) {
       console.log(err)
     }
 
-    res.render('list', {
+    res.render('admin/movie_list', {
       title: '电影列表页',
       movies: movies
     })

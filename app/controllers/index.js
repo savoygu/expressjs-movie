@@ -51,7 +51,7 @@ exports.search = function (req, res) {
         var results = movies.slice(index, index + count)
 
         console.log(categories)
-        res.render('results', {
+        res.render('movie/results', {
           title: '电影结果列表页面',
           keyword: category.name,
           currentPage: page + 1,
@@ -69,7 +69,7 @@ exports.search = function (req, res) {
         }
         var results = movies.slice(index, index + count)
 
-        res.render('results', {
+        res.render('movie/results', {
           title: '电影结果列表页面',
           keyword: q,
           currentPage: page + 1,
