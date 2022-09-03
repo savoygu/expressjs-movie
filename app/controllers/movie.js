@@ -1,26 +1,26 @@
-var _ = require('underscore')
-var Movie = require('../models/movie')
-var Comment = require('../models/comment')
-var Category = require('../models/category')
-var fs = require('fs')
-var path = require('path')
+const _ = require('underscore')
+const Movie = require('../models/movie')
+const Comment = require('../models/comment')
+const Category = require('../models/category')
+const fs = require('fs')
+const path = require('path')
 
 // 电影详情
 exports.detail = function (req, res) {
-  var id = req.params.id
+  const id = req.params.id
   Movie.findById(id, function (err, movie) {
     if (err) {
       console.log(err)
     }
-    
-    Movie.update({_id: id}, {$inc: {pv: 1}}, function (err) {
+
+    Movie.update({ _id: id }, { $inc: { pv: 1 } }, function (err) {
       if (err) {
         console.log(err)
       }
     })
-    
+
     Comment
-      .find({movie: id})
+      .find({ movie: id })
       .populate('from', 'name')
       .populate('reply.from reply.to', 'name')
       .exec(function (err, comments) {
@@ -30,8 +30,8 @@ exports.detail = function (req, res) {
         }
         res.render('movie/detail', {
           title: '电影详情页——' + movie.title,
-          movie: movie,
-          comments: comments
+          movie,
+          comments
         })
       })
   })
@@ -45,7 +45,7 @@ exports.new = function (req, res) {
     }
     res.render('admin/movie_add', {
       title: '电影后台录入页',
-      categories: categories,
+      categories,
       movie: {}
     })
   })
@@ -53,14 +53,14 @@ exports.new = function (req, res) {
 
 // 更新电影(回显数据)
 exports.update = function (req, res) {
-  var id = req.params.id
+  const id = req.params.id
   if (id) {
     Movie.findById(id, function (err, movie) {
       Category.find({}, function (err, categories) {
         res.render('admin/movie_add', {
           title: '电影后台更新页',
-          movie: movie,
-          categories: categories
+          movie,
+          categories
         })
       })
     })
@@ -68,17 +68,17 @@ exports.update = function (req, res) {
 }
 
 exports.savePoster = function (req, res, next) {
-  var posterData = req.files.uploadPoster
-  var filePath = posterData.path
-  var originalFilename = posterData.originalFilename
+  const posterData = req.files.uploadPoster
+  const filePath = posterData.path
+  const originalFilename = posterData.originalFilename
   console.log(posterData)
 
   if (originalFilename) {
-    fs.readFile(filePath, function (err, data)  {
-      var timestamp = Date.now()
-      var type = posterData.type.split('/')[1]
-      var poster = timestamp + '.' + type
-      var newPath = path.join(__dirname, '../../', '/public/upload/' + poster)
+    fs.readFile(filePath, function (err, data) {
+      const timestamp = Date.now()
+      const type = posterData.type.split('/')[1]
+      const poster = timestamp + '.' + type
+      const newPath = path.join(__dirname, '../../', '/public/upload/' + poster)
 
       fs.writeFile(newPath, data, function (err) {
         req.poster = poster
@@ -92,9 +92,9 @@ exports.savePoster = function (req, res, next) {
 
 // 新增电影 / 更新电影
 exports.save = function (req, res) {
-  var id = req.body.movie._id
-  var movie = req.body.movie
-  var _movie
+  const id = req.body.movie._id
+  const movie = req.body.movie
+  let _movie
 
   if (req.poster) {
     movie.poster = req.poster
@@ -106,16 +106,16 @@ exports.save = function (req, res) {
         console.log(err)
       }
       _movie = _.extend(oldMovie, movie)
-      var oldCategoryId = movie.oldCategory
-      var categoryId = movie.category
+      const oldCategoryId = movie.oldCategory
+      const categoryId = movie.category
       _movie.save(function (err, newMovie) {
         if (err) {
           console.log(err)
         }
 
         if (categoryId !== oldCategoryId) {
-          Category.findByIdAndUpdate({_id: categoryId}, {$addToSet: {movies: newMovie._id}}, function (err, newCategory0) {
-            Category.findByIdAndUpdate({_id: oldCategoryId}, {$pull: {movies: newMovie._id}}, function (err, newCategory1) {
+          Category.findByIdAndUpdate({ _id: categoryId }, { $addToSet: { movies: newMovie._id } }, function (err, newCategory0) {
+            Category.findByIdAndUpdate({ _id: oldCategoryId }, { $pull: { movies: newMovie._id } }, function (err, newCategory1) {
               res.redirect('/movie/' + movie._id)
             })
           })
@@ -127,8 +127,8 @@ exports.save = function (req, res) {
   } else {
     _movie = new Movie(movie)
 
-    var categoryId = _movie.category
-    var categoryName = movie.categoryName
+    const categoryId = _movie.category
+    const categoryName = movie.categoryName
 
     _movie.save(function (err, newMovie) {
       if (err) {
@@ -148,7 +148,7 @@ exports.save = function (req, res) {
           })
         })
       } else if (categoryName) {
-        var category = new Category({
+        const category = new Category({
           name: categoryName,
           movies: [newMovie._id]
         })
@@ -177,17 +177,17 @@ exports.list = function (req, res) {
 
     res.render('admin/movie_list', {
       title: '电影列表页',
-      movies: movies
+      movies
     })
   })
 }
 
 // 删除电影
 exports.del = function (req, res) {
-  var id = req.query.id
+  const id = req.query.id
 
   if (id) {
-    Movie.remove({_id: id}, function (err, movie) {
+    Movie.remove({ _id: id }, function (err, movie) {
       if (err) {
         console.log(err)
       } else {

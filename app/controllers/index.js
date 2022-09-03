@@ -1,12 +1,12 @@
-var Movie = require('../models/movie')
-var Category = require('../models/category')
+const Movie = require('../models/movie')
+const Category = require('../models/category')
 
 exports.index = function (req, res) {
   console.log('user in session: ', req.session.user)
 
   Category
     .find({})
-    .populate({path: 'movies', options: {limit: 20}})
+    .populate({ path: 'movies', options: { limit: 20 } })
     .exec(function (err, categories) {
       if (err) {
         console.log(err)
@@ -14,7 +14,7 @@ exports.index = function (req, res) {
       console.log(categories)
       res.render('index', {
         title: '电影首页',
-        categories: categories
+        categories
       })
     })
   // Movie.fetch(function (err, movies) {
@@ -29,15 +29,15 @@ exports.index = function (req, res) {
 }
 
 exports.search = function (req, res) {
-  var catId = req.query.cat
-  var q = req.query.q
-  var page = parseInt(req.query.p, 10) || 0
-  var count = 2
-  var index = page * count
+  const catId = req.query.cat
+  const q = req.query.q
+  const page = parseInt(req.query.p, 10) || 0
+  const count = 2
+  const index = page * count
 
   if (catId) {
     Category
-      .find({_id: catId})
+      .find({ _id: catId })
       .populate({
         path: 'movies',
         select: 'title poster'
@@ -46,9 +46,9 @@ exports.search = function (req, res) {
         if (err) {
           console.log(err)
         }
-        var category = categories[0] || {}
-        var movies = category.movies || []
-        var results = movies.slice(index, index + count)
+        const category = categories[0] || {}
+        const movies = category.movies || []
+        const results = movies.slice(index, index + count)
 
         console.log(categories)
         res.render('movie/results', {
@@ -62,12 +62,12 @@ exports.search = function (req, res) {
       })
   } else {
     Movie
-      .find({title: new RegExp(q + '.*', 'i')})
+      .find({ title: new RegExp(q + '.*', 'i') })
       .exec(function (err, movies) {
         if (err) {
           console.log(err)
         }
-        var results = movies.slice(index, index + count)
+        const results = movies.slice(index, index + count)
 
         res.render('movie/results', {
           title: '电影结果列表页面',

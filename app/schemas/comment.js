@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
 
 const CommentSchema = new Schema({
-  movie: {type: ObjectId, ref: 'Movie'},
-  from: {type: ObjectId, ref: 'User'},
+  movie: { type: ObjectId, ref: 'Movie' },
+  from: { type: ObjectId, ref: 'User' },
   reply: [{
-    from: {type: ObjectId, ref: 'User'},
-    to: {type: ObjectId, ref: 'User'},
+    from: { type: ObjectId, ref: 'User' },
+    to: { type: ObjectId, ref: 'User' },
     content: String
   }],
   content: String,
@@ -42,7 +42,7 @@ CommentSchema.statics = {
   },
   findById: function (id, cb) {
     return this
-      .findOne({_id: id})
+      .findOne({ _id: id })
       .exec(cb)
   }
 }

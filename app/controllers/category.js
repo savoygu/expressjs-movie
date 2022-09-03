@@ -1,5 +1,5 @@
-var _ = require('underscore')
-var Category = require('../models/category')
+const _ = require('underscore')
+const Category = require('../models/category')
 
 // 新增电影分类(回显数据)
 exports.new = function (req, res) {
@@ -8,17 +8,17 @@ exports.new = function (req, res) {
     category: {
       name: ''
     }
-  });
+  })
 }
 
 // 更新电影分类(回显数据)
 exports.update = function (req, res) {
-  var id = req.params.id
+  const id = req.params.id
   if (id) {
     Category.findById(id, function (err, category) {
       res.render('admin/category_add', {
         title: '电影后台分类更新页',
-        category: category
+        category
       })
     })
   }
@@ -26,12 +26,12 @@ exports.update = function (req, res) {
 
 // 新增电影分类 / 更新电影分类
 exports.save = function (req, res) {
-  var id = req.body.category._id
-  var category = req.body.category
+  const id = req.body.category._id
+  const category = req.body.category
 
   if (id) {
     Category.findById(id, function (err, oldCategory) {
-      _category = _.extend(oldCategory, category)
+      const _category = _.extend(oldCategory, category)
       _category.save(function (err, newCategory) {
         if (err) {
           console.log(err)
@@ -41,7 +41,7 @@ exports.save = function (req, res) {
       })
     })
   } else {
-    var _category = new Category(category)
+    const _category = new Category(category)
     _category.save(function (err, newCategory) {
       if (err) {
         console.log(err)
@@ -61,18 +61,17 @@ exports.list = function (req, res) {
 
     res.render('admin/category_list', {
       title: '电影分类列表页',
-      categories: categories
+      categories
     })
   })
 }
 
-
 // 删除分类
 exports.del = function (req, res) {
-  var id = req.query.id
+  const id = req.query.id
 
   if (id) {
-    Category.remove({_id: id}, function (err, category) {
+    Category.remove({ _id: id }, function (err, category) {
       if (err) {
         console.log(err)
       } else {

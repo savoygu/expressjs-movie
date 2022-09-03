@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
 
 const MovieSchema = new Schema({
   doctor: String,
@@ -50,7 +50,7 @@ MovieSchema.statics = {
   },
   findById: function (id, cb) {
     return this
-      .findOne({_id: id})
+      .findOne({ _id: id })
       .exec(cb)
   }
 }

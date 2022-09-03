@@ -1,7 +1,7 @@
-var express = require('express')
-var router = express.Router()
-var Index = require('../controllers/index')
-var User = require('../controllers/user')
+const express = require('express')
+const router = express.Router()
+const Index = require('../controllers/index')
+const User = require('../controllers/user')
 
 // 首页
 router.get('/', Index.index) // 电影首页
@@ -10,7 +10,6 @@ router.get('/', Index.index) // 电影首页
 router.get('/signin', User.showSignin) // 登录页面
 router.get('/signup', User.showSignup) // 注册页面
 router.get('/logout', User.logout) // 登出
-
 
 router.get('/results', Index.search) // 电影分类列表
 

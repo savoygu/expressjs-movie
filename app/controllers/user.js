@@ -1,4 +1,4 @@
-var User = require('../models/user')
+const User = require('../models/user')
 
 // 用户注册
 exports.showSignup = function (req, res) {
@@ -13,12 +13,11 @@ exports.showSignin = function (req, res) {
   })
 }
 
-
 // 用户注册
 exports.signup = function (req, res) {
-  var _user = req.body.user
+  const _user = req.body.user
 
-  User.findOne({name: _user.name}, function (err, user) {
+  User.findOne({ name: _user.name }, function (err, user) {
     if (err) {
       console.log(err)
     }
@@ -26,7 +25,7 @@ exports.signup = function (req, res) {
     if (user) {
       return res.redirect('/signin')
     } else {
-      var user = new User(_user)
+      user = new User(_user)
 
       user.save(function (err, newUser) {
         if (err) {
@@ -41,11 +40,11 @@ exports.signup = function (req, res) {
 
 // 用户登录
 exports.signin = function (req, res) {
-  var _user = req.body.user
-  var name = _user.name
-  var password = _user.password
+  const _user = req.body.user
+  const name = _user.name
+  const password = _user.password
   console.log(_user)
-  User.findOne({name: name}, function (err, user) {
+  User.findOne({ name }, function (err, user) {
     if (err) {
       console.log(err)
     }
@@ -86,7 +85,7 @@ exports.list = function (req, res) {
 
     res.render('admin/user_list', {
       title: '用户列表页',
-      users: users
+      users
     })
   })
 }

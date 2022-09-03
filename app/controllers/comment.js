@@ -1,14 +1,13 @@
-var _ = require('underscore')
-var Comment = require('../models/comment')
+const Comment = require('../models/comment')
 
 // 新增电影 / 更新电影
 exports.save = function (req, res) {
-  var _comment = req.body.comment
-  var movieId = _comment.movie
+  const _comment = req.body.comment
+  const movieId = _comment.movie
 
   if (_comment.cid) {
     Comment.findById(_comment.cid, function (err, comment) {
-      var reply = {
+      const reply = {
         from: _comment.from,
         to: _comment.tid,
         content: _comment.content
@@ -25,7 +24,7 @@ exports.save = function (req, res) {
       })
     })
   } else {
-    comment = new Comment(_comment)
+    const comment = new Comment(_comment)
 
     comment.save(function (err, newComment) {
       if (err) {

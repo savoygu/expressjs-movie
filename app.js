@@ -1,15 +1,15 @@
-var express = require('express')
-var path = require('path')
-var mongoose = require('mongoose')
-var serveStatic = require('serve-static')
-var bodyParser = require('body-parser')
-var session = require('express-session')
-var MongoStore = require('connect-mongo')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var port = process.env.PROT || 3000
-var app = express()
-var dbUrl = 'mongodb://localhost/imooc'
+const express = require('express')
+const path = require('path')
+const mongoose = require('mongoose')
+const serveStatic = require('serve-static')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const port = process.env.PROT || 3000
+const app = express()
+const dbUrl = 'mongodb://localhost/imooc'
 
 // 视图
 app.set('views', './app/views/pages')
@@ -19,7 +19,7 @@ app.set('view engine', 'pug')
 // 静态资源解析
 app.use(serveStatic(path.join(__dirname, 'public')))
 // 表单数据解析
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 // app.use(bodyParser.json({ type: 'application/*+json' }))
 // app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
 // app.use(bodyParser.text({ type: 'text/html' }))
@@ -45,12 +45,12 @@ if (process.env.NODE_ENV === 'development') {
   app.locals.pretty = true // 格式化代码
   mongoose.set('debug', true)
 
-  var liveReloadPort = process.env.LR_PORT || 35279
-  var excludeList = ['.woff', '.flv']
+  const liveReloadPort = process.env.LR_PORT || 35279
+  const excludeList = ['.woff', '.flv']
 
   app.use(require('connect-livereload')({
     port: liveReloadPort,
-    excludeList: excludeList
+    excludeList
   }))
 }
 
