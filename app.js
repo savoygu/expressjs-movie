@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 var serveStatic = require('serve-static')
 var bodyParser = require('body-parser')
 var session = require('express-session')
-var mongoStore = require('connect-mongo')(session)
+var MongoStore = require('connect-mongo')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var port = process.env.PROT || 3000
@@ -28,9 +28,9 @@ app.use(session({
   secret: 'movie',
   saveUninitialized: false,
   resave: false,
-  store: new mongoStore({
-    url: dbUrl,
-    collection: 'sessions'
+  store: MongoStore.create({
+    mongoUrl: dbUrl,
+    collectionName: 'sessions'
   })
 }))
 
@@ -57,9 +57,6 @@ if (process.env.NODE_ENV === 'development') {
 require('./config/routes')(app)
 
 connect()
-  .on('error', console.log)
-  .on('disconnected', connect)
-  .once('open', listen)
 
 // 监听 3000 端口
 function listen () {
@@ -70,6 +67,12 @@ function listen () {
 
 // 连接 Mongodb 数据库
 function connect () {
-  mongoose.Promise = global.Promise
-  return mongoose.connect(dbUrl, {useMongoClient: true})
+  mongoose.connection.on('error', console.log)
+    .on('disconnected', connect)
+    .once('open', listen)
+
+  mongoose.connect(dbUrl)
+    .catch(console.error.bind(console, 'connect error:'))
+  // mongoose.Promise = global.Promise
+  // return mongoose.connect(dbUrl, {useMongoClient: true})
 }
